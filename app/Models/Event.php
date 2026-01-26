@@ -32,4 +32,9 @@ class Event extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function registrationFields()
+    {
+        return $this->hasMany(RegistrationField::class);
+    }
 }
