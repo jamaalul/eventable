@@ -1,12 +1,20 @@
 @extends('layouts.app')
 
 @section('content')
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
+
+        .plus-jakarta-sans {
+            font-family: "Plus Jakarta Sans", sans-serif;
+            font-optical-sizing: auto;
+        }
+    </style>
+
     <div class="bg-white dark:bg-zinc-800 min-h-screen antialiased">
         <flux:sidebar sticky collapsible="mobile"
             class="bg-zinc-50 dark:bg-zinc-900 border-zinc-200 dark:border-zinc-700 border-r">
             <flux:sidebar.header>
-                <flux:sidebar.brand href="#" logo="https://fluxui.dev/img/demo/logo.png"
-                    logo:dark="https://fluxui.dev/img/demo/dark-mode-logo.png" name="Acme Inc." />
+                <img src="{{ asset('logo.svg') }}" alt="Logo" class="w-[70%]">
                 <flux:sidebar.collapse class="lg:hidden" />
             </flux:sidebar.header>
             <flux:sidebar.search placeholder="Search..." />

@@ -21,22 +21,40 @@
             <flux:callout variant="danger" icon="x-circle" heading="{{ $error }}" />
         @endforeach
     @endif
-    <div class="gap-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+    <div class="gap-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
         @forelse ($events as $event)
-            <div onclick="window.location.href = '{{ route('dashboard.event.details', ['slug' => $event->slug]) }}'"
-                class="flex flex-col gap-3 bg-zinc-100 p-4 border border-zinc-200 hover:border-blue-300 rounded-md h-56 overflow-hidden hover:scale-[1.02] transition-all duration-150 cursor-pointer">
-                <div>
-                    <flux:badge size="sm" icon="paper-clip" color="blue">{{ $event['status'] }}
-                    </flux:badge>
+            <div
+                class="flex flex-col gap-3 border border-zinc-200 hover:border-z-300 rounded-xl h-fit overflow-hidden transition-all duration-150">
+                <div class="relative flex flex-col gap-1 p-3 border-zinc-200 border-b h-fit overflow-hidden"
+                    style="background-color: {{ $event['accent_color'] }}33">
+                    <h2 class="font-medium text-lg" style="color: {{ $event['accent_color'] }}">{{ $event['title'] }}</h2>
+                    <div>
+                        <flux:badge icon="information-circle" size="sm">{{ $event['status'] }}</flux:badge>
+                    </div>
+                    <div class="top-3 right-3 absolute">
+                        <flux:tooltip content="Manage">
+                            <flux:button href="{{ route('dashboard.event.details', ['slug' => $event->slug]) }}"
+                                icon="ellipsis-horizontal" size="sm" variant="ghost" class="cursor-pointer">
+                            </flux:button>
+                        </flux:tooltip>
+                    </div>
                 </div>
-                <div class="flex items-center gap-2 bg-white px-3 py-2 border border-zinc-200 rounded-sm">
-                    <flux:icon.tag class="size-5" />
-                    <h2 class="font-medium text-md">{{ Str::limit($event->title, 20, '…') }}</h2>
-                </div>
-                <p class="mx-3 text-zinc-900 text-sm">{{ Str::limit($event->description, 95, '…') }}</p>
-                <div class="flex flex-1 justify-end items-end gap-1">
-                    <p class="text-zinc-600 text-sm">Manage</p>
-                    <flux:icon.arrow-up-right class="size-4 text-zinc-800" />
+                <div class="grid grid-cols-2 px-3 pt-2 pb-3">
+                    <div>
+                        <p class="mb-1 text-zinc-500 text-sm">Reg Close</p>
+                        <p class="mb-5 font-medium text-sm">{{ $event['registration_end']->format('M d, Y') }}</p>
+                        <p class="mb-1 text-zinc-500 text-sm">Max Capacity</p>
+                        <p class="font-medium text-sm">NaN</p>
+                    </div>
+                    <div>
+                        <p class="mb-1 text-zinc-500 text-sm">Event date</p>
+                        <p class="mb-5 font-medium text-sm">NaD</p>
+                        <p class="mb-1 text-zinc-500 text-sm">Reg Link</p>
+                        <flux:button icon="link" size="xs" class="w-full cursor-pointer" variant="filled"
+                            onclick="navigator.clipboard.writeText('{{ url('/') }}/{{ $event['slug'] }}'); Livewire.dispatch('toast', { message: 'Link copied to clipboard', variant: 'success' })">
+                            Copy link
+                        </flux:button>
+                    </div>
                 </div>
             </div>
         @empty
@@ -62,7 +80,7 @@
                 <flux:input label="Title" name="title" placeholder="Your event title" />
                 <flux:textarea label="Description" name="description" placeholder="Your event description" />
                 <flux:input.group label="Registration link">
-                    <flux:input.group.prefix>eventable.id/</flux:input.group.prefix>
+                    <flux:input.group.prefix>atttract.com/</flux:input.group.prefix>
                     <flux:input name="slug" placeholder="your-event" />
                 </flux:input.group>
                 <div class="gap-2 grid grid-cols-1 md:grid-cols-2">

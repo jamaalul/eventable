@@ -55,7 +55,8 @@
                 </div>
                 <div class="flex">
                     <flux:spacer />
-                    <flux:button type="submit" variant="primary" class="cursor-pointer">Update</flux:button>
+                    <flux:button type="submit" icon="circle-fading-arrow-up" variant="primary" class="cursor-pointer">
+                        Update</flux:button>
                 </div>
             </form>
             <flux:separator />
@@ -185,7 +186,8 @@
                                         <flux:switch name="is_required" class="cursor-pointer" x-model="is_required"
                                             label="Required" />
                                         <flux:spacer />
-                                        <flux:button type="submit" class="cursor-pointer" variant="primary">Save Changes
+                                        <flux:button type="submit" class="cursor-pointer" variant="primary"
+                                            icon="save">Save Changes
                                         </flux:button>
                                     </div>
                                 </form>
@@ -196,7 +198,7 @@
             @endforeach
             <div class="flex justify-end">
                 <flux:modal.trigger name="add-field">
-                    <flux:button variant="primary" class="cursor-pointer">Add field</flux:button>
+                    <flux:button variant="primary" class="cursor-pointer" icon="plus">Add field</flux:button>
                 </flux:modal.trigger>
             </div>
 
@@ -254,7 +256,8 @@
                             <flux:switch name="is_required" class="cursor-pointer" x-model="is_required"
                                 label="Required" />
                             <flux:spacer />
-                            <flux:button type="submit" class="cursor-pointer" variant="primary">Save</flux:button>
+                            <flux:button type="submit" class="cursor-pointer" variant="primary" icon="plus">Add
+                            </flux:button>
                         </div>
                     </form>
                 </div>
@@ -310,14 +313,16 @@
         </div>
 
 
-        <div
-            class="hidden sticky lg:flex flex-col justify-center items-center gap-2 bg-zinc-50 opacity-0 p-5 border border-zinc-200 rounded-lg h-fit vh]">
-            <div class="rounded-sm h-[75vh] aspect-[9/19.5]" style="background-color: {{ $event->base_color }}">
+        {{-- phone mockup --}}
+        <div class="h-[75vh] aspect-9/19">
+            <div class="flex justify-start items-center space-x-1.5 bg-gray-200 px-3 rounded-t-lg w-full h-8">
+                <span class="bg-red-400 rounded-full size-2"></span>
+                <span class="bg-yellow-400 rounded-full size-2"></span>
+                <span class="bg-green-400 rounded-full size-2"></span>
             </div>
-        </div>
-        <div
-            class="hidden right-8 fixed lg:flex flex-col justify-center items-center gap-2 bg-zinc-50 p-5 border border-zinc-200 rounded-lg h-fit vh]">
-            <div class="rounded-sm h-[75vh] aspect-[9/19.5]" style="background-color: {{ $event->base_color }}">
+            <div class="bg-gray-100 border-t-0 rounded-b-lg w-full h-[72vh]">
+                <iframe src="{{ url('/') }}/{{ $event['slug'] }}" frameborder="0"
+                    class="w-full h-full overflow-x-hidden"></iframe>
             </div>
         </div>
     </div>
