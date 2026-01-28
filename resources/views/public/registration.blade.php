@@ -31,7 +31,7 @@
 
             <!-- Registration Form Area -->
             <div class="space-y-8">
-                <form action="#" method="POST" class="space-y-8">
+                <form action="{{ route('public.event.register.store', $event->slug) }}" method="POST" class="space-y-8">
                     @csrf
 
                     <div class="space-y-8">
@@ -40,23 +40,25 @@
                                 <flux:label class="font-medium text-black/60 text-sm">
                                     {{ $field->label }}</flux:label>
 
+                                @php
+                                    $fieldName = "field_{$field->id}";
+                                    $isRequired = $field->is_required || $field->is_mandatory;
+                                @endphp
+
                                 @if ($field->type === 'text')
-                                    <flux:input name="field_{{ $field->id }}"
-                                        required="{{ $field->is_required || $field->is_mandatory }}"
-                                        placeholder="Type here..." />
+                                    <flux:input name="{{ $fieldName }}" :required="$isRequired"
+                                        value="{{ old($fieldName) }}" placeholder="Type here..." />
                                 @elseif($field->type === 'email')
-                                    <flux:input type="email" name="field_{{ $field->id }}"
-                                        required="{{ $field->is_required || $field->is_mandatory }}"
-                                        placeholder="your@email.com" />
+                                    <flux:input type="email" name="{{ $fieldName }}" :required="$isRequired"
+                                        value="{{ old($fieldName) }}" placeholder="your@email.com" />
                                 @elseif($field->type === 'textarea')
-                                    <flux:textarea name="field_{{ $field->id }}"
-                                        required="{{ $field->is_required || $field->is_mandatory }}"
-                                        placeholder="Tell us..." />
+                                    <flux:textarea name="{{ $fieldName }}" :required="$isRequired"
+                                        placeholder="Tell us...">{{ old($fieldName) }}</flux:textarea>
                                 @elseif($field->type === 'select')
-                                    <flux:select name="field_{{ $field->id }}"
-                                        required="{{ $field->is_required || $field->is_mandatory }}">
+                                    <flux:select name="{{ $fieldName }}" :required="$isRequired">
                                         @foreach ($field->options as $option)
-                                            <flux:select.option>{{ $option }}</flux:select.option>
+                                            <flux:select.option :selected="old($fieldName) == $option">{{ $option }}
+                                            </flux:select.option>
                                         @endforeach
                                     </flux:select>
                                 @elseif($field->type === 'checkbox')
@@ -64,15 +66,15 @@
                                         @foreach ($field->options as $option)
                                             <label
                                                 class="flex items-center gap-3 bg-white/50 hover:bg-white shadow-sm p-4 border border-zinc-200 rounded-lg transition-all cursor-pointer">
-                                                <flux:checkbox name="field_{{ $field->id }}[]"
-                                                    value="{{ $option }}" />
+                                                <flux:checkbox name="{{ $fieldName }}[]" value="{{ $option }}"
+                                                    :checked="is_array(old($fieldName)) && in_array($option, old($fieldName))" />
                                                 <span class="font-medium text-black/80 text-sm">{{ $option }}</span>
                                             </label>
                                         @endforeach
                                     </div>
                                 @elseif($field->type === 'radio')
-                                    <flux:radio.group name="field_{{ $field->id }}"
-                                        required="{{ $field->is_required || $field->is_mandatory }}">
+                                    <flux:radio.group name="{{ $fieldName }}" :required="$isRequired"
+                                        value="{{ old($fieldName) }}">
                                         <div class="gap-4 grid grid-cols-1 sm:grid-cols-2">
                                             @foreach ($field->options as $option)
                                                 <label
@@ -85,6 +87,8 @@
                                         </div>
                                     </flux:radio.group>
                                 @endif
+
+                                <flux:error name="{{ $fieldName }}" />
                             </div>
                         @endforeach
                     </div>
